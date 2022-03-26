@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BoxDetector : MonoBehaviour
@@ -11,9 +9,8 @@ public class BoxDetector : MonoBehaviour
     [SerializeField] 
     private int gap;
     
-
-    private List<Vector3> _raycasters = new List<Vector3>(20);
-    [SerializeField] RaycastHit[] _raycastHits = new RaycastHit[10];
+    [SerializeField] private Vector3[] raycasters = new Vector3[20];
+    [SerializeField] RaycastHit[] _raycastHits = new RaycastHit[20];
     int i;
     private string name = "a";
 
@@ -23,58 +20,88 @@ public class BoxDetector : MonoBehaviour
     private Material redMaterial;
     [SerializeField] 
     private Material whiteMaterial;
-    // Start is called before the first frame update
+
+    
+    private bool Key;
+    private RaycastHit tempHit;
     void Start()
     {
-        CreateVectors();
-        i = Mathf.CeilToInt(size.x * size.y) +1;
+        i = Mathf.CeilToInt(size.x * size.y);
     }
 
     // Update is called once per frame
     void Update()
     {
+        CreateVectors();
         sendRaycast();
+        
+    }
+
+    private void FixedUpdate()
+    {
+        
     }
 
     private void CreateVectors()
     {
+        int j = 0;
+        int tempX = 0;
+        int tempY = 0;
         var sizeX = size.x;
         var sizeY = size.y;
-        while (sizeX >= 0)
+        var currentPos = transform.position;
+        while (tempX < sizeX)
         {
-            while (sizeY >= 0)
+            while (tempY < sizeY)
             {
-                var currentPos = transform.position;
-                _raycasters.Add(new Vector3((currentPos.x + sizeX * gap), currentPos.y + sizeY * gap, currentPos.z));
-                
-                sizeY--;
+                raycasters[j] = new Vector3(currentPos.x + tempX * gap, currentPos.y , currentPos.z + tempY * gap);
+                j++;
+                tempY++;
             }
-            sizeX--;
+
+            tempY = 0;
+            tempX++;
         }
     }
 
     private void sendRaycast()
     {
-        while (i > 0)
+        int a = i+1;
+        while (a > 0) // başlangıçta a 5 oluyor 
         {
+            a--;
+            Debug.Log(a);
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 10000));
+            Ray ray = new Ray(raycasters[a], Vector3.down);
+            Debug.DrawRay(raycasters[a], Vector3.down * 5000, Color.black);
+            if (Physics.Raycast(ray, out hit, 5000f)) 
             {
-                Debug.Log(i);
-                _raycastHits[i] = hit;
-                Debug.Log("Bir şeye çarptı");
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * 10000);
-                if (hit.collider.tag.Equals("EmptyBox"))
+                Debug.Log("ray gönderildi");
+                Debug.DrawRay(raycasters[a], Vector3.down * hit.distance, Color.green);
+                if(hit.collider == null)
+                    return;
+                if (hit.collider != null)
                 {
-                    Debug.Log("çarptııı");
-                    hit.collider.gameObject.GetComponent<Renderer>().material = greenMaterial;
-                }
-                else
-                {
-                    hit.collider.gameObject.GetComponent<Renderer>().material = whiteMaterial;
+                    if (hit.collider.gameObject.CompareTag("EmptyBox"))
+                    {
+                        Debug.Log("çarptııı");
+                        hit.collider.gameObject.GetComponent<Renderer>().material = greenMaterial;
+                        tempHit = hit;
+                        Key = true;
+                    }
+                    else
+                    {
+                        Key = false;
+                    }
                 }
             }
-            i--;
+            else if (Key == true)
+            {
+                tempHit.collider.gameObject.GetComponent<Renderer>().material = whiteMaterial;
+                // not anymore.
+                Key = false;
+            }
         }
+
     }
 }
