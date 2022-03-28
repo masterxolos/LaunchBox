@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Box
   - EmptyBox
+  - Objects
   layers:
   - Default
   - TransparentFX
