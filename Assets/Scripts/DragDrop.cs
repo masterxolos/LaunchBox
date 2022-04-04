@@ -21,7 +21,7 @@ public class DragDrop : MonoBehaviour
         if(gridSettings)
             grids.SetActive(true);
         gameObject.transform.position =
-            new Vector3(transform.position.x, transform.position.y + 2.5f, transform.position.z);
+            new Vector3(transform.position.x, transform.position.y + 4.5f, transform.position.z);
         mZCoord = Camera.main.WorldToScreenPoint(
             gameObject.transform.position).z;
         
@@ -51,8 +51,8 @@ public class DragDrop : MonoBehaviour
     private void OnMouseUp()
     {
         if(gridSettings)
-            grids.SetActive(false);
-        //gameObject.transform.position =
-            //new Vector3(transform.position.x, transform.position.y - 2f, transform.position.z);
+            grids.SetActive(true);
+        gameObject.transform.position =
+            new Vector3(transform.position.x, transform.position.y - 2f, transform.position.z);
     }
 }
