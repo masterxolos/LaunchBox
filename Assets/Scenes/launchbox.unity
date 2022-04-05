@@ -1369,6 +1369,7 @@ GameObject:
   - component: {fileID: 760258092}
   - component: {fileID: 760258091}
   - component: {fileID: 760258090}
+  - component: {fileID: 760258094}
   m_Layer: 0
   m_Name: "Main camera(eski konumu kay\u0131tl\u0131 merak etme)"
   m_TagString: MainCamera
@@ -1458,6 +1459,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &760258094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760258089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc6331cd8afde847929550d158f8042, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &830795965 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a15aa528b8a5b844cae3440fc5a2e891, type: 3}
